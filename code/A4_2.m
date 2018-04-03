@@ -120,7 +120,7 @@ xlabel('Time (ms)')
 ylabel('Voltage (V)')
 grid on
 
-f = (0:ts-1);               % Frequency range
+f = (-ts/2:ts/2-1);               % Frequency range
 
 fV1in = fft(V1(1, :));
 fV1out = fft(V1(7, :));
