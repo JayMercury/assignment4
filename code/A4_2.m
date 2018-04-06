@@ -1,6 +1,13 @@
+%% Part 2
+% In part 2, we are given with different types of voltage input, and we
+% have to simulation its output. The first type of input is a single step,
+% the second one is a sine function and the last one is a guassian pulse.
+
+% Reset Everything
 close all
 clear 
 
+% Define Constant
 R1 = 1;
 G1 = 1/R1;
 c = 0.25;
@@ -16,6 +23,7 @@ Ro = 1000;
 Go = 1/Ro;
 Vin = 1;
 
+% Define Matrices
 C = [0 0 0 0 0 0 0;
     -c c 0 0 0 0 0;
     0 0 -L 0 0 0 0;
@@ -40,7 +48,7 @@ F = [Vin;
     0;
     0;];
 
-Foff = [Vin-Vin;
+Foff = [Vin-Vin;        % F matrix when the circuit is off (0V)
         0;
         0;
         0;
@@ -48,8 +56,10 @@ Foff = [Vin-Vin;
         0;
         0;];
 
+% Simulation in time domain    
 ts = 1000;              % Time step
-    
+
+% Calculating and plotting the voltage output with step transistion input
 V1 = zeros(7, ts);
 Vstart = zeros(7, 1);
 dt = 1e-3;
@@ -74,6 +84,7 @@ xlabel('Time (ms)')
 ylabel('Voltage (V)')
 grid on
 
+% Calculating and plotting the voltage output with sine function input
 V2 = zeros(7, ts);
 Fsin = zeros(7,1);
 for j = 1:ts
@@ -97,6 +108,8 @@ xlabel('Time (ms)')
 ylabel('Voltage (V)')
 grid on
 
+
+% Calculating and plotting the voltage output with guassian function input
 V3 = zeros(7, ts);
 Fgauss = zeros(7,1);
 for k = 1:ts
@@ -120,8 +133,10 @@ xlabel('Time (ms)')
 ylabel('Voltage (V)')
 grid on
 
+% Simulation in frequency domain
 f = (-ts/2:ts/2-1);               % Frequency range
 
+% Frequency response for the step function input
 fV1in = fft(V1(1, :));
 fV1out = fft(V1(7, :));
 fsV1in = fftshift(fV1in);
@@ -135,6 +150,7 @@ xlabel('frequency (1/ms)')
 ylabel('Voltage (V)')
 grid on
 
+% Frequency response for the sine function input
 fV2 = fft(V2.');
 fsV2 = fftshift(fV2);
 figure(5)
@@ -146,6 +162,7 @@ xlabel('frequency (1/ms)')
 ylabel('Voltage (V)')
 grid on
 
+% Frequency response for the guassian function input
 fV3 = fft(V3.');
 fsV3 = fftshift(fV3);
 figure(6)
@@ -157,3 +174,8 @@ xlabel('frequency (1/ms)')
 ylabel('Voltage (V)')
 grid on
 
+%% Discussion
+% By increasing and decreasing the time step, the simulations will get less
+% and more defined respectively. However, the simulation will start to
+% break when the time step is too small or unable to record properly when
+% it is too big.
